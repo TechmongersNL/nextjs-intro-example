@@ -1,7 +1,9 @@
 "use client";
 
 import AddPlayerForm from "./AddPlayerForm";
+import { Heading1 } from "./typography";
 import Player from "./Player";
+import SelectBox from "./UI/SelectBox";
 import { useState } from "react";
 
 type PlayerObj = { id: number; name: string; score: number };
@@ -49,19 +51,21 @@ export default function Scoreboard() {
     );
   };
 
+  console.log(sortBy);
+
   return (
-    <div className="Scoreboard">
+    <div className="flex flex-col py-8 px-4 max-w-5xl mx-auto gap-2 bg-slate-200 dark:bg-slate-950">
+      <Heading1>Scoreboard</Heading1>
       <p>
         Sort order:{" "}
-        <select
-          onChange={(event) => {
-            setSortBy(event.target.value as SortKey);
-          }}
+        <SelectBox<SortKey>
+          options={[
+            { value: "score", label: "Sort by score" },
+            { value: "name", label: "Sort by name" },
+          ]}
+          onChange={setSortBy}
           value={sortBy}
-        >
-          <option value="score">Sort by score</option>
-          <option value="name">Sort by name</option>
-        </select>
+        />
       </p>
 
       <p>Player&apos;s scores:</p>

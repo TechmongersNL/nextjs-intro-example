@@ -26,13 +26,12 @@ export default function SelectBox<V>({
   const [selected, setSelected] = useState(optionFromValue(value));
 
   const handleChange = (option: SelectBoxOption<V>) => {
-    debugger;
     onChange && onChange(option.value);
     setSelected(option);
   };
 
   return (
-    <div className="fixed top-16 w-72">
+    <div className="w-72">
       <Listbox value={selected} onChange={handleChange}>
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
@@ -61,7 +60,7 @@ export default function SelectBox<V>({
                       active ? "bg-amber-100 text-amber-900" : "text-gray-900"
                     }`
                   }
-                  value={option.value}
+                  value={option}
                 >
                   {({ selected }) => (
                     <>

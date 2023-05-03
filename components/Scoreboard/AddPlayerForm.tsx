@@ -1,35 +1,40 @@
+import { FormEvent, useState } from "react";
+
 import { Button } from "../UI";
 import { Input } from "../UI/Input";
-import React from "react";
-import { useForm } from "react-hook-form";
-
-type FormValues = {
-  name: string;
-};
 
 type Props = {
   onSubmit: (name: string) => void;
 };
 
 export default function AddPlayerForm({ onSubmit }: Props) {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormValues>();
+  const [name, setName] = useState("");
+  const [error, setError] = useState(false);
 
-  const doSubmit = ({ name }: FormValues) => {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (name?.length === 0) {
+      setError(true);
+      return;
+    }
+
     onSubmit(name);
-    reset();
-  };
+    setName("");
+  }
 
   return (
-    <form onSubmit={handleSubmit(doSubmit)}>
+    <form onSubmit={handleSubmit}>
       <div className="flex flex-col gap-2 items-start justify-start">
         <Input
-          {...register("name", { required: true })}
-          $hasError={!!errors.name}
+          type="text"
+          name="name"
+          value={name}
+          onChange={(event) => {
+            setError(event.target.value.length === 0);
+            setName(event.target.value);
+          }}
+          $hasError={error}
         />
         <Button className="flex-1" type="submit">
           Add Player

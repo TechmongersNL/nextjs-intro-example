@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Button } from "./UI";
+import { Button } from "../UI";
 import tw from "tailwind-styled-components";
 
 type Props = {

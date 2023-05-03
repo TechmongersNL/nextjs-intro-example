@@ -52,8 +52,9 @@ const MenuItem = tw.li`
 const ContentWrapper = tw.div`
   bg-white/30 dark:bg-black/50
   w-full
-  overflow-x-auto
+  overflow-auto
   h-screen
+  pb-24
 `;
 
 const Body = tw.body`

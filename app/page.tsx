@@ -1,5 +1,5 @@
 // app/page.tsx
-import Scoreboard from "@/components/Scoreboard";
+import Scoreboard from "@/components/Scoreboard/Scoreboard";
 
 export default function Home() {
   return (

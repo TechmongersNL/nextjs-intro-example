@@ -1,9 +1,11 @@
 "use client";
 
 import AddPlayerForm from "./AddPlayerForm";
-import { Heading1 } from "./typography";
+import { Button } from "../UI";
+import { Heading1 } from "../typography";
 import Player from "./Player";
-import SelectBox from "./UI/SelectBox";
+import SelectBox from "../UI/SelectBox";
+import tw from "tailwind-styled-components";
 import { useState } from "react";
 
 type PlayerObj = { id: number; name: string; score: number };
@@ -35,7 +37,18 @@ function compareByName(playerA: PlayerObj, playerB: PlayerObj) {
   return playerA.name.localeCompare(playerB.name);
 }
 
+function getLastId(players: PlayerObj[]) {
+  return players.reduce((curr, next) => {
+    if (next.id > curr.id) return next;
+    return curr;
+  }).id;
+}
+
 type SortKey = "score" | "name";
+
+const Actions = tw.p`
+  flex flex-row gap-2 items-center
+`;
 
 export default function Scoreboard() {
   const [sortBy, setSortBy] = useState<SortKey>("score");
@@ -51,12 +64,19 @@ export default function Scoreboard() {
     );
   };
 
-  console.log(sortBy);
+  const addPlayer = (name: string) => {
+    setPlayers([...players, { id: getLastId(players) + 1, name, score: 0 }]);
+  };
+
+  const reset = () => {
+    setPlayers(players.map((player) => ({ ...player, score: 0 })));
+    setSortBy("name");
+  };
 
   return (
     <div className="flex flex-col py-8 px-4 max-w-5xl mx-auto gap-2 bg-slate-200 dark:bg-slate-950">
       <Heading1>Scoreboard</Heading1>
-      <p>
+      <Actions>
         Sort order:{" "}
         <SelectBox<SortKey>
           options={[
@@ -66,7 +86,8 @@ export default function Scoreboard() {
           onChange={setSortBy}
           value={sortBy}
         />
-      </p>
+        <Button onClick={reset}>Reset</Button>
+      </Actions>
 
       <p>Player&apos;s scores:</p>
       <ul>
@@ -79,7 +100,7 @@ export default function Scoreboard() {
         ))}
       </ul>
 
-      <AddPlayerForm />
+      <AddPlayerForm onSubmit={addPlayer} />
     </div>
   );
 }

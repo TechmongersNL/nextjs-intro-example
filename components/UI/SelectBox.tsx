@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 
 type SelectBoxOption<V> = {
@@ -15,15 +15,23 @@ type SelectBoxProps<V> = {
   onChange?: (value: V) => void;
 };
 
+const optionFromValue: <V>(
+  options: Array<SelectBoxOption<V>>,
+  value?: V
+) => SelectBoxOption<V> = (options, value) =>
+  options.find((option) => option.value === value) || options[0];
+
 export default function SelectBox<V>({
   options,
   value,
   onChange,
 }: SelectBoxProps<V>) {
-  const optionFromValue = (value?: V) =>
-    options.find((option) => option.value === value);
+  const [selected, setSelected] = useState(optionFromValue(options, value));
 
-  const [selected, setSelected] = useState(optionFromValue(value));
+  useEffect(() => {
+    setSelected(optionFromValue(options, value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   const handleChange = (option: SelectBoxOption<V>) => {
     onChange && onChange(option.value);

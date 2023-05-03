@@ -1,8 +1,10 @@
+// app/layout.tsx
 import "./globals.css";
 
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import Logo from "@/components/branding/Logo";
+import { Providers } from "@/components/_contexts/Providers";
 import tw from "tailwind-styled-components";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -69,22 +71,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Body className={inter.className}>
-        <NavWrapper>
-          <Nav>
-            <HomeLink $as={Link} href="/">
-              <Logo />
-            </HomeLink>
-            <Menu>
-              <MenuItem>
-                <Link href="/records">Records</Link>
-              </MenuItem>
-              <MenuItem>
-                <Link href="/about">About</Link>
-              </MenuItem>
-            </Menu>
-          </Nav>
-        </NavWrapper>
-        <ContentWrapper>{children}</ContentWrapper>
+        <Providers>
+          <NavWrapper>
+            <Nav>
+              <HomeLink $as={Link} href="/">
+                <Logo />
+              </HomeLink>
+              <Menu>
+                <MenuItem>
+                  <Link href="/records">Records</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link href="/about">About</Link>
+                </MenuItem>
+              </Menu>
+            </Nav>
+          </NavWrapper>
+          <ContentWrapper>{children}</ContentWrapper>
+        </Providers>
       </Body>
     </html>
   );

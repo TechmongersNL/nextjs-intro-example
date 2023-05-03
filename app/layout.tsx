@@ -25,6 +25,7 @@ const Nav = tw.nav`
   shadow-md
   gap-24
   p-2
+  z-50
 `;
 
 const HomeLink = tw.a`
@@ -48,7 +49,7 @@ const MenuItem = tw.li`
 
 const ContentWrapper = tw.div`
   bg-white/30 dark:bg-black/50
-  max-w-7xl
+  w-full
   overflow-x-auto
   h-screen
 `;
@@ -74,6 +75,9 @@ export default function RootLayout({
               <Logo />
             </HomeLink>
             <Menu>
+              <MenuItem>
+                <Link href="/records">Records</Link>
+              </MenuItem>
               <MenuItem>
                 <Link href="/about">About</Link>
               </MenuItem>
